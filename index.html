@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>U R GAY ✨</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+    cursor: none;
+  }
+
+  body {
+    background: linear-gradient(
+      125deg,
+      #ff0000, #ff8c00, #ffee00, #00ff3c,
+      #00d4ff, #4b00ff, #ff00d4, #ff0066
+    );
+    background-size: 800% 800%;
+    animation: rainbowShift 6s ease infinite;
+    position: relative;
+  }
+
+  @keyframes rainbowShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Disco strobe overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.08) 0 20px,
+      rgba(0,0,0,0.08) 20px 40px
+    );
+    mix-blend-mode: overlay;
+    animation: strobe 0.8s steps(2) infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes strobe {
+    0%   { opacity: 0.3; }
+    50%  { opacity: 0.7; }
+    100% { opacity: 0.3; }
+  }
+
+  .floater {
+    position: absolute;
+    font-weight: 900;
+    font-size: clamp(2rem, 6vw, 5rem);
+    color: #fff;
+    text-shadow:
+      3px 3px 0 #ff00ff,
+      -3px -3px 0 #00ffff,
+      0 0 20px #ffff00,
+      0 0 40px #ff00aa;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    letter-spacing: 0.1em;
+    z-index: 2;
+    will-change: transform;
+  }
+
+  .sparkle {
+    position: absolute;
+    font-size: 2rem;
+    pointer-events: none;
+    user-select: none;
+    z-index: 3;
+    animation: sparkleLife 1.2s ease-out forwards;
+  }
+
+  @keyframes sparkleLife {
+    0%   { transform: scale(0) rotate(0deg); opacity: 1; }
+    50%  { transform: scale(1.4) rotate(180deg); opacity: 1; }
+    100% { transform: scale(0) rotate(360deg); opacity: 0; }
+  }
+
+  .cursor-trail {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 28px;
+    transform: translate(-50%, -50%);
+  }
+
+  .heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 2.5rem;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+    animation: rise linear forwards;
+  }
+
+  @keyframes rise {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
+  }
+
+  .title {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(3rem, 12vw, 10rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #ff00ff,
+      0 0 40px #00ffff,
+      6px 6px 0 #ff0066,
+      -6px -6px 0 #00ddff;
+    z-index: 5;
+    pointer-events: none;
+    user-select: none;
+    animation: pulse 0.6s ease-in-out infinite alternate, wiggle 3s ease-in-out infinite;
+    letter-spacing: 0.15em;
+    text-align: center;
+  }
+
+  @keyframes pulse {
+    from { transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+    to   { transform: translate(-50%, -50%) scale(1.15) rotate(2deg); }
+  }
+
+  @keyframes wiggle {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50%      { filter: hue-rotate(180deg); }
+  }
+</style>
+</head>
+<body>
+  <div class="title">U R GAY</div>
+  <div class="cursor-trail" id="cursor">✨</div>
+
+<script>
+  const phrases = ["U R GAY", "💖 U R GAY 💖", "✨ U R GAY ✨", "🌈 U R GAY 🌈", "U R SOOO GAY", "YAS QUEEN", "GAY GAY HOMOSEXUAL GAY"];
+  const sparkleChars = ["✨", "⭐", "💖", "🌈", "💅", "👑", "💋", "🦄", "🎀", "💜"];
+
+  // Create floating text elements
+  function createFloater() {
+    const el = document.createElement('div');
+    el.className = 'floater';
+    el.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+    el.style.color = `hsl(${Math.random() * 360}, 100%, ${60 + Math.random() * 30}%)`;
+    document.body.appendChild(el);
+
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    let x = Math.random() * w;
+    let y = Math.random() * h;
+    let vx = (Math.random() - 0.5) * 6;
+    let vy = (Math.random() - 0.5) * 6;
+    let rot = Math.random() * 360;
+    let vr = (Math.random() - 0.5) * 4;
+
+    function step() {
+      const rect = el.getBoundingClientRect();
+      x += vx; y += vy; rot += vr;
+      if (x < 0 || x + rect.width > window.innerWidth) vx *= -1;
+      if (y < 0 || y + rect.height > window.innerHeight) vy *= -1;
+      el.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+      requestAnimationFrame(step);
+    }
+    step();
+  }
+
+  for (let i = 0; i < 8; i++) createFloater();
+
+  // Sparkle trail follows cursor
+  const cursor = document.getElementById('cursor');
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+    if (Math.random() < 0.4) spawnSparkle(mouseX, mouseY);
+  });
+
+  function spawnSparkle(x, y) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+    s.style.left = (x + (Math.random() - 0.5) * 40) + 'px';
+    s.style.top = (y + (Math.random() - 0.5) * 40) + 'px';
+    s.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1200);
+  }
+
+  // Ambient sparkles everywhere
+  setInterval(() => {
+    spawnSparkle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+  }, 80);
+
+  // Rising hearts/rainbows
+  function spawnRiser() {
+    const r = document.createElement('div');
+    r.className = 'heart';
+    r.textContent = sparkleChars[Math.floor(Math.random() * sparkleChars.length)];
+    r.style.left = Math.random() * 100 + 'vw';
+    r.style.fontSize = (1.5 + Math.random() * 2.5) + 'rem';
+    r.style.animationDuration = (4 + Math.random() * 4) + 's';
+    document.body.appendChild(r);
+    setTimeout(() => r.remove(), 8000);
+  }
+  setInterval(spawnRiser, 250);
+
+  // Click = sparkle explosion
+  document.addEventListener('click', (e) => {
+    for (let i = 0; i < 30; i++) {
+      setTimeout(() => spawnSparkle(
+        e.clientX + (Math.random() - 0.5) * 200,
+        e.clientY + (Math.random() - 0.5) * 200
+      ), i * 15);
+    }
+  });
+</script>
+</body>
+</html>
